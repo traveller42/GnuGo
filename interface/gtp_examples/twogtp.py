@@ -33,7 +33,7 @@ import string
 import re
 
 
-debug = 0 
+debug = False
 
 
 def coords_to_sgf(size, board_coords):
@@ -84,7 +84,7 @@ class GTP_connection:
             result = result + line
             line = self.infile.readline()
         if debug:
-            sys.stderr.write("Reply: " + line + "\n")
+            sys.stderr.write("Reply: " + result + "\n")
 
         # Remove trailing newline from the result
         if result[-1] == "\n":
