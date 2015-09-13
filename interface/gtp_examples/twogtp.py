@@ -149,11 +149,21 @@ class GTP_player:
 
     def handicap(self, handicap, handicap_type):
         if handicap_type == "fixed":
-            result = self.connection.exec_cmd("fixed_handicap %d" % (handicap))
+            if (self.is_known_command("fixed_handicap")):
+                result = self.connection.exec_cmd("fixed_handicap %d" % (handicap))
+            else:
+	        sys.stderr.write(self.connection.exec_cmd("name") + "," + \
+                                 self.connection.exec_cmd("version") + \
+				 " doesn't support fixed handicap over GTP, exiting!\n")
+		sys.exit(1)
         else:
-            result = self.connection.exec_cmd("place_free_handicap %d"
-                                              % (handicap))
-
+            if (self.is_known_command("place_free_handicap")):
+                result = self.connection.exec_cmd("place_free_handicap %d" % (handicap))
+            else:
+	        sys.stderr.write(self.connection.exec_cmd("name") + "," + \
+                                 self.connection.exec_cmd("version") + \
+				 " doesn't support free handicap over GTP, exiting!\n")
+		sys.exit(1)
         return string.split(result, " ")
 
     def loadsgf(self, endgamefile, move_number):
@@ -186,7 +196,10 @@ class GTP_player:
                self.connection.exec_cmd("version")
 
     def final_score(self):
-        return self.connection.exec_cmd("final_score")
+        if (self.is_known_command("final_score")):
+            return self.connection.exec_cmd("final_score")
+        else:
+            return "N/A"
 
     def score(self):
         return self.final_score(self)
