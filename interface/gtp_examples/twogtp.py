@@ -389,9 +389,9 @@ class GTP_game:
                             print "Black passes"
                     else:
                         passes = 0
-                        self.whiteplayer.black(move)
                         if verbose >= 1:
                             print "Black plays " + move
+                    self.whiteplayer.black(move)
                 to_play = "W"
             else:
                 move = self.whiteplayer.genmove("white")
@@ -412,9 +412,9 @@ class GTP_game:
                             print "White passes"
                     else:
                         passes = 0
-                        self.blackplayer.white(move)
                         if verbose >= 1:
                             print "White plays " + move
+                    self.blackplayer.white(move)
                 to_play = "B"
 
             if verbose >= 2:
